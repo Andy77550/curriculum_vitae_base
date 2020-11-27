@@ -4,30 +4,28 @@
 require_once __DIR__.'/../../main/inc/global.inc.php';
 require_once __DIR__.'/curriculum_vitae_base.php';
 
-
-api_protect_admin_script();
+//api_protect_admin_script();
 
 $plugin = curriculum_vitae_base::create();
 
 $table = 'plugin_curriculum_vitae_base';
-$sql = "SELECT * FROM $table ORDER BY id";
+$sql = "SELECT * FROM $table ";
 $result = Database::query($sql);
 $terms = Database::store_result($result, 'ASSOC');
 
+
 $action = isset($_GET['action']) ? Security::remove_XSS($_GET['action']) : 'add';
-$id = isset($_GET['id']) ? (int) $_GET['id'] : 0;
+$id_user = api_get_user_id();
 
 $term = null;
-if (!empty($id)) {
-    $sql = "SELECT * FROM $table WHERE id = $id";
+if (!empty($id_user)) {
+    $sql = "SELECT * FROM $table WHERE id = $id_user AND id_user = $id_user";
     $result = Database::query($sql);
     $term = Database::fetch_array($result, 'ASSOC');
-    if (empty($term)) {
-        api_not_allowed(true);
-    }
+  
 }
 
-$form = new FormValidator('add', 'post', api_get_self().'?action='.$action.'&id='.$id);
+$form = new FormValidator('add', 'post', api_get_self().'?action='.$action.'&id_user='.$id_user);
 $form->addDatePicker('date_birthday', $plugin->get_lang('Date de naissance'));
 $form->addText('phone', $plugin->get_lang('Téléphone'), true);
 $form->addText('address', $plugin->get_lang('Adresse'), true);
@@ -40,6 +38,8 @@ switch ($action) {
         if ($form->validate()) {
             $values = $form->getSubmitValues();
             $params = [
+                'id' => api_get_user_id(),
+                'id_user' => api_get_user_id(),
                 'date_birthday' => $values['date_birthday'],
                 'phone' => $values['phone'],
 				'address' => $values['address'],
@@ -47,10 +47,10 @@ switch ($action) {
             ];
             $result = Database::insert($table, $params);
             if ($result) {
-                Display::addFlash(Display::return_message(get_lang('Les informations personnelles ont été ajoutés !!')));
+                Display::addFlash(Display::return_message(get_lang('Les informations personnelles ont étés ajoutés !!')));
             }
             header('Location: '.api_get_self());
-			header('Location: /chamilo-1.11.12/plugin/curriculum_vitae_base/display-cv.php');
+			header('Location: display-cv.php');
             exit;
         }
         break;
@@ -59,25 +59,19 @@ switch ($action) {
         if ($form->validate()) {
             $values = $form->getSubmitValues();
             $params = [
+                'id' => api_get_user_id(),
+                'id_user' => api_get_user_id(),
                 'date_birthday' => $values['date_birthday'],
                 'phone' => $values['phone'],
 				'address' => $values['address'],
                 'skill_profil' => $values['skill_profil'],
             ];
-            Database::update($table, $params, ['id = ?' => $id]);
-            Display::addFlash(Display::return_message(get_lang('Updated')));
+            Database::update($table, $params, ['id_user = ?' => $id_user]);
+            Display::addFlash(Display::return_message(get_lang('Mise à jour des informations personnelles !! ')));
 
             header('Location: '.api_get_self());
-			header('Location: /chamilo-1.11.12/plugin/curriculum_vitae_base/display-cv.php');
-            exit;
-        }
-        break;
-    case 'delete':
-        if (!empty($term)) {
-            Database::delete($table, ['id = ?' => $id]);
-            Display::addFlash(Display::return_message(get_lang('Deleted')));
-            header('Location: '.api_get_self());
-			header('Location: /chamilo-1.11.12/plugin/curriculum_vitae_base/display-cv.php');
+            header('Location: cv.php');
+			
             exit;
         }
         break;
@@ -86,7 +80,7 @@ switch ($action) {
 $tpl = new Template($plugin->get_lang('Etape 1 : Informations personnelles'));
 $tpl->assign('terms', $terms);
 $tpl->assign('form', $form->returnForm());
-$content = $tpl->fetch('/'.$plugin->get_name().'/view/templates1.tpl');
+$content = $tpl->fetch('/'.$plugin->get_name().'/view/zo.tpl');
 // Assign into content
 $tpl->assign('content', $content);
 // Display
