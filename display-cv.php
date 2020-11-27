@@ -3,9 +3,9 @@
 
 require_once __DIR__.'/../../main/inc/global.inc.php';
 require_once __DIR__.'/curriculum_vitae_base.php';
-include("form-cv.php");
 
-api_protect_admin_script();
+
+//api_protect_admin_script();
 
 $plugin = curriculum_vitae_base::create();
 
@@ -15,21 +15,19 @@ $result = Database::query($sql2);
 $terms = Database::store_result($result, 'ASSOC');
 
 $action = isset($_GET['action']) ? Security::remove_XSS($_GET['action']) : 'add';
-$id = isset($_GET['id']) ? (int) $_GET['id'] : 0;
+$id_user = api_get_user_id();
 
 $term = null;
-if (!empty($id)) {
-    $sql2 = "SELECT * FROM $table WHERE id = $id";
+if (!empty($id_user)) {
+    $sql2 = "SELECT * FROM $table WHERE id = $id_user AND  id_user = $id_user";
     $result = Database::query($sql2);
     $term = Database::fetch_array($result, 'ASSOC');
-    if (empty($term)) {
-        api_not_allowed(true);
-    }
+    
 }
 
 
 
-$form = new FormValidator('add', 'post', api_get_self().'?action='.$action.'&id='.$id);
+$form = new FormValidator('add', 'post', api_get_self().'?action='.$action.'&id_user='.$id_user);
 $form->addDatePicker('date_begin', $plugin->get_lang('Date de début'));
 $form->addDatePicker('date_end', $plugin->get_lang('Date de fin'));
 $form->addText('title', $plugin->get_lang('Titre'), true);
@@ -41,6 +39,8 @@ switch ($action) {
         if ($form->validate()) {
             $values = $form->getSubmitValues();
             $params = [
+                'id' => api_get_user_id(),
+                'id_user' => api_get_user_id(),
                 'date_begin' => $values['date_begin'],
                 'date_end' => $values['date_end'],
 				'title' => $values['title'],
@@ -48,7 +48,7 @@ switch ($action) {
             ];
             $result = Database::insert($table, $params);
             if ($result) {
-                Display::addFlash(Display::return_message(get_lang('Les expériences Professionnelles/Formations/Hobbies ont été ajoutés !!')));
+                Display::addFlash(Display::return_message(get_lang('Les expériences professionnelles/formations/hobbies ont étés ajoutés !!')));
             }
             header('Location: '.api_get_self());
             exit;
@@ -59,32 +59,36 @@ switch ($action) {
         if ($form->validate()) {
             $values = $form->getSubmitValues();
             $params = [
+                'id' => api_get_user_id(),
+                'id_user' => api_get_user_id(),
                'date_begin' => $values['date_begin'],
-                'date_end' => $values['date_end'],
-				'title' => $values['title'],
-                'description' => $values['description'],
+               'date_end' => $values['date_end'],
+               'title' => $values['title'],
+               'description' => $values['description'],
             ];
-            Database::update($table, $params, ['id = ?' => $id]);
-            Display::addFlash(Display::return_message(get_lang('Updated')));
+            Database::update($table, $params, ['id_user = ?' => $id_user]);
+            Display::addFlash(Display::return_message(get_lang('Mise à jour des expériences professionnelles/formations/hobbies')));
 
             header('Location: '.api_get_self());
+            header('Location: cv.php');
+            
             exit;
         }
         break;
     case 'delete':
         if (!empty($term)) {
-            Database::delete($table, ['id = ?' => $id]);
-            Display::addFlash(Display::return_message(get_lang('Deleted')));
+            Database::delete($table, ['id_user = ?' => $id_user]);
+            Display::addFlash(Display::return_message(get_lang('Les  expériences professionnelles/formations/hobbies ont étés supprimés !! ')));
             header('Location: '.api_get_self());
+            header('Location: cv.php');
             exit;
         }
         break;
 }
-
 $tpl = new Template($plugin->get_lang('Etape 2 : Expériences Professionnelles/Formations/Hobbies'));
 $tpl->assign('terms', $terms);
 $tpl->assign('form', $form->returnForm());
-$content = $tpl->fetch('/'.$plugin->get_name().'/view/templates2.tpl');
+$content = $tpl->fetch('/'.$plugin->get_name().'/view/zo2.tpl');
 // Assign into content
 $tpl->assign('content', $content);
 // Display
