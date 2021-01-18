@@ -20,8 +20,8 @@ if (!empty($id_user)) {
 	//Récupérations des informations personnelles
 	
 	$sql = "SELECT * FROM plugin_curriculum_vitae_base WHERE id = $id_user";
-    $result = Database::query($sql);
-    $infoPerso = Database::store_result($result, 'ASSOC');
+    	$result = Database::query($sql);
+    	$infoPerso = Database::store_result($result, 'ASSOC');
 	
 	//Récupérations des expériences professionnelles
 	$sql = "SELECT * FROM experience_pro WHERE id = $id_user";
