@@ -41,14 +41,14 @@ switch ($action) {
         if ($form->validate()) {
             $values = $form->getSubmitValues();
             $params = [
-				'id' => api_get_user_id(),
-				'id_user' => api_get_user_id(),
+		'id' => api_get_user_id(),
+		'id_user' => api_get_user_id(),
                 'date_birthday' => $values['date_birthday'],
                 'phone' => $values['phone'],
-				'address' => $values['address'],
+		'address' => $values['address'],
                 'skill_profil' => $values['skill_profil'],
             ];
-			$result = Database::insert($table,$params);
+		$result = Database::insert($table,$params);
             if ($result) {
 				
                 Display::addFlash(Display::return_message(get_lang('Les informations personnelles ont été ajoutés !!')));
@@ -65,11 +65,11 @@ switch ($action) {
         if ($form->validate()) {
             $values = $form->getSubmitValues();
             $params = [
-				'id' => api_get_user_id(),
-				'id_user' => api_get_user_id(),
+		'id' => api_get_user_id(),
+		'id_user' => api_get_user_id(),
                 'date_birthday' => $values['date_birthday'],
                 'phone' => $values['phone'],
-				'address' => $values['address'],
+		'address' => $values['address'],
                 'skill_profil' => $values['skill_profil'],
             ];
             Database::update($table, $params, ['id_user = ?' => $id_user]);
