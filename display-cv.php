@@ -39,11 +39,11 @@ switch ($action) {
         if ($form->validate()) {
             $values = $form->getSubmitValues();
             $params = [
-				'id' => api_get_user_id(),
-				'id_user' => api_get_user_id(),
+		'id' => api_get_user_id(),
+		'id_user' => api_get_user_id(),
                 'date_begin' => $values['date_begin'],
                 'date_end' => $values['date_end'],
-				'title' => $values['title'],
+		'title' => $values['title'],
                 'description' => $values['description'],
             ];
             $result = Database::insert($tables, $params);
@@ -60,11 +60,11 @@ switch ($action) {
         if ($form->validate()) {
             $values = $form->getSubmitValues();
             $params = [
-				'id' => api_get_user_id(),
-				'id_user' => api_get_user_id(),
-				'date_begin' => $values['date_begin'],
+		'id' => api_get_user_id(),
+		'id_user' => api_get_user_id(),
+		'date_begin' => $values['date_begin'],
                 'date_end' => $values['date_end'],
-				'title' => $values['title'],
+		'title' => $values['title'],
                 'description' => $values['description'],
             ];
             Database::update($tables, $params, ['id_user = ?' => $id_user]);
