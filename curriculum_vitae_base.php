@@ -47,6 +47,8 @@ class curriculum_vitae_base extends Plugin
 				phone VARCHAR(50) NOT NULL,
                 address VARCHAR(50) NOT NULL,
                 skill_profil VARCHAR(255) NOT NULL,
+                firstname varchar(60) NULL,
+                lastname varchar(60) NULL,
                 PRIMARY KEY (id));
         ";
         Database::query($sql);
@@ -59,6 +61,8 @@ class curriculum_vitae_base extends Plugin
 				date_end VARCHAR(50) NOT NULL,
                 title VARCHAR(255) NOT NULL,
 				description VARCHAR(512) NOT NULL,
+                localisation varchar(60) NOT NULL,
+                nom_entreprise	varchar(60)	NOT NULL,
                 PRIMARY KEY (id));
         ";
         Database::query($sql2);
