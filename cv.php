@@ -46,7 +46,7 @@ $tpl->assign('xpPro',$xpPro);
 $tpl->assign('xpForm',$xpForm);
 $tpl->assign('xpHobbies',$xpHobbies);
 
-$content = $tpl->fetch('/'.$plugin->get_name().'/view/mv32.tpl');
+$content = $tpl->fetch('/'.$plugin->get_name().'/view/mv39.tpl');
 // Assign into content
 $tpl->assign('content', $content);
 // Display
