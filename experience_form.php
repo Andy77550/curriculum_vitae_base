@@ -58,6 +58,27 @@ switch ($action) {
             exit;
         }
         break;
+		case 'new_add':
+			if ($form->validate()) {
+				$values = $form->getSubmitValues();
+				$params = [
+					'id_user' => api_get_user_id(),
+					'type' => 1,
+					'date_begin' => $values['date_begin'],
+					'date_end' => $values['date_end'],
+					'diplome' => $values['diplome'],
+					'lieu' => $values['lieu'],
+					'etablissement' => $values['etablissement'],
+				];
+				$result = Database::insert($tables, $params);
+				if ($result) {
+					Display::addFlash(Display::return_message(get_lang('La formation a été ajoutée !!')));
+				}
+				header('Location: '.api_get_self());
+				header('Location: cv.php' );
+				exit;
+			}
+			break;
 		
 		
 		case 'edit':
@@ -122,7 +143,7 @@ switch ($action) {
 $tpl = new Template($plugin->get_lang('Formation'));
 $tpl->assign('xpForm', $xpForm);
 $tpl->assign('form', $form->returnForm());
-$content = $tpl->fetch('/'.$plugin->get_name().'/view/nI1.tpl');
+$content = $tpl->fetch('/'.$plugin->get_name().'/view/nl3.tpl');
 // Assign into content
 $tpl->assign('content', $content);
 // Display
