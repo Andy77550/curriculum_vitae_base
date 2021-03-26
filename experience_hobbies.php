@@ -29,7 +29,7 @@ if (!empty($id_user)) {
 
 
 $form = new FormValidator('add', 'post', api_get_self().'?action='.$action.'&id_user='.$id_user);
-$form->addText('title', $plugin->get_lang('Titre'), true);
+$form->addText('title', $plugin->get_lang('Passion'), true);
 $form->addTextarea('description', $plugin->get_lang('Description'), [], true);
 $form->addButtonSave(get_lang('Save'));
 
@@ -93,7 +93,7 @@ switch ($action) {
 $tpl = new Template($plugin->get_lang('Hobbies'));
 $tpl->assign('xpHobbies ', $xpHobbies );
 $tpl->assign('form', $form->returnForm());
-$content = $tpl->fetch('/'.$plugin->get_name().'/view/nH.tpl');
+$content = $tpl->fetch('/'.$plugin->get_name().'/view/nh3.tpl');
 // Assign into content
 $tpl->assign('content', $content);
 // Display
