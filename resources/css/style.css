@@ -23,7 +23,7 @@
 .skills{
     display: grid;
     grid-template-columns: 3fr 9fr 6fr;
-    margin: 19px 0;
+    margin: 10px 0;
 }
 
 #space{
