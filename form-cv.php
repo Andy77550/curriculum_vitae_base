@@ -122,7 +122,7 @@ switch ($action) {
 $tpl = new Template($plugin->get_lang(' Informations personnelles'));
 $tpl->assign('infoPerso', $infoPerso);
 $tpl->assign('form', $form->returnForm());
-$content = $tpl->fetch('/'.$plugin->get_name().'/view/fl.tpl');
+$content = $tpl->fetch('/'.$plugin->get_name().'/view/fmv.tpl');
 // Assign into content
 $tpl->assign('content', $content);
 // Display
