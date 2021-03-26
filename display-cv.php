@@ -31,7 +31,7 @@ if (!empty($id_user)) {
 $form = new FormValidator('add', 'post', api_get_self().'?action='.$action.'&id_user='.$id_user);
 $form->addText('date_begin', $plugin->get_lang('Date de début'));
 $form->addText('date_end', $plugin->get_lang('Date de fin'));
-$form->addText('title', $plugin->get_lang('Titre'), true);
+$form->addText('title', $plugin->get_lang('Poste'), true);
 $form->addText('nom_entreprise', $plugin->get_lang("Nom de l'entreprise"), true);
 $form->addText('localisation', $plugin->get_lang('Lieu'), true);
 $form->addTextarea('description', $plugin->get_lang('Description'), [], true);
@@ -63,6 +63,30 @@ switch ($action) {
             exit;
         }
         break;
+
+        case 'new_add':
+            if ($form->validate($xpPro)) {
+                $values = $form->getSubmitValues();
+                $params = [
+                    'id_user' => api_get_user_id(),
+                    'type' => 2,
+                    'date_begin' => $values['date_begin'],
+                    'date_end' => $values['date_end'],
+                    'title' => $values['title'],
+                    'description' => $values['description'],
+                    'nom_entreprise' => $values['nom_entreprise'],
+                    'localisation'=> $values['localisation'],
+                    
+                ];
+                $result = Database::insert($tables, $params);
+                if ($result) {
+                    Display::addFlash(Display::return_message(get_lang('Les expériences Professionnelles ont été ajoutés !!')));
+                }
+                header('Location: '.api_get_self());
+                header ('Location: cv.php' );
+                exit;
+            }
+            break;
        
         case 'edit':
         $form->setDefaults($xpPro);
@@ -131,7 +155,7 @@ $tpl = new Template($plugin->get_lang('Expériences Professionnelles'));
 $tpl->assign('xpPro', $xpPro);
 $tpl->assign('form', $form->returnForm());
 $tpl->assign('formulaire', $form->returnForm());
-$content = $tpl->fetch('/'.$plugin->get_name().'/view/nX.tpl');
+$content = $tpl->fetch('/'.$plugin->get_name().'/view/nav.tpl');
 // Assign into content
 $tpl->assign('content', $content);
 // Display
