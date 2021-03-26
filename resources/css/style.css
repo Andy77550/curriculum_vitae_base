@@ -11,8 +11,8 @@
     /* margin-top: 10px; */
 }
 
-.fa.fa-square, .fa.fa-phone, .fa.fa-birthday-cake, .fa.fa-map-marker{
-    margin-left: 110px;
+.fa.fa-square, .fa.fa-phone, .fa.fa-map-marker{
+    margin-left: 50px;
     
 }
 
@@ -156,5 +156,10 @@ span.fa.fa-download{
     padding-right: 5px;
 }
 
+
+
+i.fa.fa-birthday-cake {
+    margin-left: 105px;
+}
 
 
