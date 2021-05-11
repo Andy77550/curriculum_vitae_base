@@ -24,10 +24,18 @@
                         {% for infoPerso in infoPerso %}
                         
                             <center><a href="{{ _p.web_plugin }}curriculum_vitae_base/form-cv.php?action=edit&{{ {'id_user': infoPerso.id_user}|url_encode() }}" class="btn btn-success btn-success-1">
-                                <span class="fa fa-edit fa-fw" aria-hidden="true"></span> {{ 'Edit'|get_lang }}
+                                <span class="fa fa-edit fa-fw" aria-hidden="true"></span> {{ ''|get_lang }}
                             </a></center>
+                        {% else %}
+                            
+                            <center><a href="{{ _p.web_plugin }}curriculum_vitae_base/form-cv.php?action=new_add&{{ {'id_user': infoPerso.id_user}|url_encode() }}" class="btn btn-primary btncache">
+                                        <span class="fa fa-plus" aria-hidden="true"></span> {{ ''|get_lang }}
+                                    </a></center>
                         {% endfor %}
                     </div>
+
+                    
+                    
                 </div>
             </div> <!--end header-->
 
@@ -56,11 +64,11 @@
                                 
                                 <div id="vide">	
                                     <a href="{{ _p.web_plugin }}curriculum_vitae_base/experience_form.php?action=edit&{{ {'id_user': xpForm.id_user}|url_encode() }}" class="btn btn-success btn-success-2 btncache">
-                                        <span class="fa fa-edit fa-fw" aria-hidden="true"></span> {{ 'Edit'|get_lang }}
+                                        <span class="fa fa-edit fa-fw" aria-hidden="true"></span> {{ ''|get_lang }}
                                     </a>
 
                                       <a href="{{ _p.web_plugin }}curriculum_vitae_base/experience_form.php?action=delete&{{ {'id': xpForm.id}|url_encode() }}" class="btn btn-danger btncache">
-                                            <span class="fa fa-times fa-fw" aria-hidden="true"></span> {{ 'Delete'|get_lang }}
+                                            <span class="fa fa-times fa-fw" aria-hidden="true"></span> {{ ''|get_lang }}
                                       </a>
                                 </div>
                             </div>
@@ -68,7 +76,7 @@
                     {% endfor %}
                     <div id="vide_form_add">
                         <a href="{{ _p.web_plugin }}curriculum_vitae_base/experience_form.php?action=new_add&{{ {'id_user': xpForm.id_user}|url_encode() }}" class="btn btn-primary btncache">
-                                        <span class="fa fa-plus" aria-hidden="true"></span> {{ 'Ajouter une formation'|get_lang }}
+                                        <span class="fa fa-plus" aria-hidden="true"></span> {{ ''|get_lang }}
                                     </a>
                     </div>
                 </div>
@@ -101,13 +109,13 @@
                                 <div id="disparu">
                                 
                                     <a href="{{ _p.web_plugin }}curriculum_vitae_base/display-cv.php?action=edit&{{ {'id_user': xpPro.id_user}|url_encode() }}" class="btn btn-success btn-success-3  btncache">
-                                        <span class="fa fa-edit fa-fw" aria-hidden="true"></span> {{ 'Edit'|get_lang }}
+                                        <span class="fa fa-edit fa-fw" aria-hidden="true"></span> {{ ''|get_lang }}
                                     </a>
                         
 
                                 
                                     <a href="{{ _p.web_plugin }}curriculum_vitae_base/display-cv.php?action=delete&{{ {'id': xpPro.id}|url_encode() }}" class="btn btn-danger  btncache">
-                                        <span class="fa fa-times fa-fw" aria-hidden="true"></span> {{ 'Delete'|get_lang }}
+                                        <span class="fa fa-times fa-fw" aria-hidden="true"></span> {{ ''|get_lang }}
                                     </a>
                                 </div>
                             </div><!--end section 1-->
@@ -115,7 +123,7 @@
                     {% endfor %}
                     <div id="vide_xp_add">
                         <a href="{{ _p.web_plugin }}curriculum_vitae_base/display-cv.php?action=new_add&{{ {'id_user': xpPro.id_user}|url_encode() }}" class="btn btn-primary  btncache">
-                            <span class="fa fa-plus" aria-hidden="true"></span> {{ 'Ajouter une expérience'|get_lang }}
+                            <span class="fa fa-plus" aria-hidden="true"></span> {{ ''|get_lang }}
                         </a>
                     </div>
                 </div>
@@ -152,18 +160,18 @@
 							
 							
 							<a href="{{ _p.web_plugin }}curriculum_vitae_base/experience_hobbies.php?action=edit&{{ {'id_user': xpHobbies.id_user}|url_encode() }}" class="btn btn-success btn-success-4 btncache">
-								<span class="fa fa-edit fa-fw" aria-hidden="true"></span> {{ 'Edit'|get_lang }}
+								<span class="fa fa-edit fa-fw" aria-hidden="true"></span> {{ ''|get_lang }}
 							</a>
 							
 							<a href="{{ _p.web_plugin }}curriculum_vitae_base/experience_hobbies.php?action=delete&{{ {'id': xpHobbies.id}|url_encode() }}" class="btn btn-danger btncache">
-								<span class="fa fa-times fa-fw" aria-hidden="true"></span> {{ 'Delete'|get_lang }}
+								<span class="fa fa-times fa-fw" aria-hidden="true"></span> {{ ''|get_lang }}
 							</a>
                         </div>
                     </div>
                 {% endfor %}
                 <div id="empty-1">
                      <a href="{{ _p.web_plugin }}curriculum_vitae_base/experience_hobbies.php?action=add&{{ {'id_user': xpHobbies.id_user}|url_encode() }}" class="btn btn-primary btncache">
-					<span class="fa fa-plus" aria-hidden="true"></span> {{ 'Ajouter un hobbie'|get_lang }}
+					<span class="fa fa-plus" aria-hidden="true"></span> {{ ''|get_lang }}
 				</a>
                 </div>
             </div>
@@ -173,9 +181,7 @@
         
         <button class="btn btn-primary" id="download"><span class="fa fa-download" aria-hidden="true"></span>Télécharger le CV</button>
         
-        <a href="{{ _p.web_plugin }}curriculum_vitae_base/experience_hobbies.php?action=new_edit&{{ {'id_user': xpHobbies.id_user}|url_encode() }}" class="btn btn-primary">
-            <span class="fa fa-arrow-left" aria-hidden="true"></span> {{ 'Retour'|get_lang }}
-        </a>
+        
 
    
 </body>
