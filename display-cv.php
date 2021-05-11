@@ -36,6 +36,7 @@ $form->addText('nom_entreprise', $plugin->get_lang("Nom de l'entreprise"), true)
 $form->addText('localisation', $plugin->get_lang('Lieu'), true);
 $form->addTextarea('description', $plugin->get_lang('Description'), [], true);
 $form->addButtonSave(get_lang('Save'));
+$form->addButtonCancel(get_lang('Cancel'));
 
 
 
@@ -59,7 +60,7 @@ switch ($action) {
                 Display::addFlash(Display::return_message(get_lang('Les expériences Professionnelles ont été ajoutés !!')));
             }
             header('Location: '.api_get_self());
-			header ('Location: experience_hobbies.php' );
+			header ('Location: cv.php' );
             exit;
         }
         break;
@@ -145,7 +146,7 @@ switch ($action) {
         case 'cancel':
         if (empty($xpPro)) {
             Database::delete($tables, ['id_user = ?' => $id_user]);
-            header('Location: '.api_get_self());
+            header('Location: cv.php');
             exit;
         }
         break;
@@ -155,8 +156,9 @@ $tpl = new Template($plugin->get_lang('Expériences Professionnelles'));
 $tpl->assign('xpPro', $xpPro);
 $tpl->assign('form', $form->returnForm());
 $tpl->assign('formulaire', $form->returnForm());
-$content = $tpl->fetch('/'.$plugin->get_name().'/view/nav.tpl');
+$content = $tpl->fetch('/'.$plugin->get_name().'/view/nav8.tpl');
 // Assign into content
 $tpl->assign('content', $content);
 // Display
 $tpl->display_one_col_template();
+
