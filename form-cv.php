@@ -40,6 +40,7 @@ $form->addText('address', $plugin->get_lang('Adresse'), true);
 $form->addTextarea('skill_profil', $plugin->get_lang('Métier actuel'), [], true);
 //$form->addHtmlEditor('definition', get_lang('Definition'), true);
 $form->addButtonSave(get_lang('Save'));
+$form->addButtonCancel($plugin->get_lang('Annuler'), 'cancel');
 
 switch ($action) {
     case 'add':
@@ -61,11 +62,34 @@ switch ($action) {
                 Display::addFlash(Display::return_message(get_lang('Les informations personnelles ont été ajoutés !!')));
             }
             header('Location: '.api_get_self());
-			header('Location: experience_form.php' );
+			header('Location: cv.php' );
             exit;
         }
         break;
 		
+        case 'new_add':
+            if ($form->validate()) {
+                $values = $form->getSubmitValues();
+                $params = [
+    
+                'id_user' => api_get_user_id(),
+                'date_birthday' => $values['date_birthday'],
+                'phone' => $values['phone'],
+                'address' => $values['address'],
+                'skill_profil' => $values['skill_profil'],
+                'firstname' =>  api_get_person_name($userInfo['firstname'], null),
+                'lastname'  => api_get_person_name($userInfo['lastname'], null),
+                ];
+            $result = Database::insert($table,$params);
+                if ($result) {
+                    
+                    Display::addFlash(Display::return_message(get_lang('Les informations personnelles ont été ajoutés !!')));
+                }
+                header('Location: '.api_get_self());
+                header('Location: cv.php' );
+                exit;
+            }
+            break;
 		
 		
     case 'edit':
@@ -105,7 +129,7 @@ switch ($action) {
             Display::addFlash(Display::return_message(get_lang('Mise à jour des informations personnelles !!')));
 
             header('Location: '.api_get_self());
-			header ('Location: experience_form.php' );
+			header ('Location: cv.php' );
             exit;
         }
         break;
@@ -113,7 +137,7 @@ switch ($action) {
         case 'cancel':
         if (empty($infoPerso)) {
             Database::delete($table, ['id_user = ?' => $id_user]);
-            header('Location: '.api_get_self());
+            header('Location: cv.php');
             exit;
         }
         break;
@@ -122,8 +146,9 @@ switch ($action) {
 $tpl = new Template($plugin->get_lang(' Informations personnelles'));
 $tpl->assign('infoPerso', $infoPerso);
 $tpl->assign('form', $form->returnForm());
-$content = $tpl->fetch('/'.$plugin->get_name().'/view/fmv.tpl');
+$content = $tpl->fetch('/'.$plugin->get_name().'/view/fmv8.tpl');
 // Assign into content
 $tpl->assign('content', $content);
 // Display
 $tpl->display_one_col_template();
+
