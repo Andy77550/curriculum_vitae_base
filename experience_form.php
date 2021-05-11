@@ -35,6 +35,7 @@ $form->addText('diplome', $plugin->get_lang('Diplôme'), true);
 $form->addText('lieu', $plugin->get_lang('Lieu'), true);
 $form->addText('etablissement', $plugin->get_lang('Etablissement'), true);
 $form->addButtonSave(get_lang('Save'));
+$form->addButtonCancel(get_lang('Cancel'));
 
 switch ($action) {
     case 'add':
@@ -54,7 +55,7 @@ switch ($action) {
                 Display::addFlash(Display::return_message(get_lang('La formation a été ajoutée !!')));
             }
             header('Location: '.api_get_self());
-			header('Location: display-cv.php' );
+			header('Location: cv.php' );
             exit;
         }
         break;
@@ -134,7 +135,7 @@ switch ($action) {
 		case 'cancel':
 			if (empty($xpForm)) {
 				Database::delete($tables, ['id_user = ?' => $id_user]);
-				header('Location: '.api_get_self());
+				header('Location: cv.php');
 				exit;
 			}
 		break;
@@ -143,8 +144,9 @@ switch ($action) {
 $tpl = new Template($plugin->get_lang('Formation'));
 $tpl->assign('xpForm', $xpForm);
 $tpl->assign('form', $form->returnForm());
-$content = $tpl->fetch('/'.$plugin->get_name().'/view/nl3.tpl');
+$content = $tpl->fetch('/'.$plugin->get_name().'/view/nl8.tpl');
 // Assign into content
 $tpl->assign('content', $content);
 // Display
 $tpl->display_one_col_template();
+
