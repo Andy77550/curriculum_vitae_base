@@ -26,5 +26,7 @@ window.onload = function () {
         html2pdf().from(vide_form_add).set(opt).save();
         html2pdf().from(btncache).set(opt).save();
 
+        setTimeout(() => { document.location.reload();}, 500);
+
     })
 }
