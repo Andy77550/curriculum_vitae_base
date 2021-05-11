@@ -32,6 +32,7 @@ $form = new FormValidator('add', 'post', api_get_self().'?action='.$action.'&id_
 $form->addText('title', $plugin->get_lang('Passion'), true);
 $form->addTextarea('description', $plugin->get_lang('Description'), [], true);
 $form->addButtonSave(get_lang('Save'));
+$form->addButtonCancel(get_lang('Cancel'));
 
 switch ($action) {
     case 'add':
@@ -84,8 +85,8 @@ switch ($action) {
         case 'cancel':
         if (empty($xpHobbies)) {
             Database::delete($tables, ['id_user = ?' => $id_user]);
-            header('Location: '.api_get_self());
-            exit;
+				header('Location: cv.php');
+                exit;
         }
         break;
 }
@@ -93,7 +94,7 @@ switch ($action) {
 $tpl = new Template($plugin->get_lang('Hobbies'));
 $tpl->assign('xpHobbies ', $xpHobbies );
 $tpl->assign('form', $form->returnForm());
-$content = $tpl->fetch('/'.$plugin->get_name().'/view/nh3.tpl');
+$content = $tpl->fetch('/'.$plugin->get_name().'/view/nh8.tpl');
 // Assign into content
 $tpl->assign('content', $content);
 // Display
