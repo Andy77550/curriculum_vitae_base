@@ -20,6 +20,7 @@ $id_user =  api_get_user_id();
 $userInfo = api_get_user_info();
 $nameFirst =  api_get_person_name($userInfo['firstname'], null);
 $nameLast  = api_get_person_name($userInfo['lastname'], null);
+$picture = $userInfo['picture_uri'];
 
 
 
@@ -40,7 +41,10 @@ $form->addText('address', $plugin->get_lang('Adresse'), true);
 $form->addTextarea('skill_profil', $plugin->get_lang('Métier actuel'), [], true);
 //$form->addHtmlEditor('definition', get_lang('Definition'), true);
 $form->addButtonSave(get_lang('Save'));
-$form->addButtonCancel($plugin->get_lang('Annuler'), 'cancel');
+if(true OR false){
+    $form->addButtonCancel($plugin->get_lang('Annuler'), 'cancel');
+}
+
 
 switch ($action) {
     case 'add':
@@ -55,6 +59,7 @@ switch ($action) {
             'skill_profil' => $values['skill_profil'],
             'firstname' =>  api_get_person_name($userInfo['firstname'], null),
             'lastname'  => api_get_person_name($userInfo['lastname'], null),
+            'picture_uri'  => $userInfo['picture_uri'],
             ];
 		$result = Database::insert($table,$params);
             if ($result) {
@@ -79,6 +84,7 @@ switch ($action) {
                 'skill_profil' => $values['skill_profil'],
                 'firstname' =>  api_get_person_name($userInfo['firstname'], null),
                 'lastname'  => api_get_person_name($userInfo['lastname'], null),
+                'picture_uri'  => $userInfo['picture_uri'],
                 ];
             $result = Database::insert($table,$params);
                 if ($result) {
@@ -151,4 +157,5 @@ $content = $tpl->fetch('/'.$plugin->get_name().'/view/fmv8.tpl');
 $tpl->assign('content', $content);
 // Display
 $tpl->display_one_col_template();
+
 
