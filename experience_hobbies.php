@@ -99,4 +99,4 @@ $content = $tpl->fetch('/'.$plugin->get_name().'/view/nh8.tpl');
 $tpl->assign('content', $content);
 // Display
 $tpl->display_one_col_template();
-.
+
