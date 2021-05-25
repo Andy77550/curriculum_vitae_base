@@ -161,4 +161,3 @@ $content = $tpl->fetch('/'.$plugin->get_name().'/view/nav8.tpl');
 $tpl->assign('content', $content);
 // Display
 $tpl->display_one_col_template();
-
