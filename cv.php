@@ -19,20 +19,20 @@ if (!empty($id_user)) {
 	//Récupérations des informations personnelles
 	
 	$sql = "SELECT * FROM plugin_curriculum_vitae_base WHERE id_user = $id_user";
-    	$result = Database::query($sql);
-    	$infoPerso = Database::store_result($result, 'ASSOC');
+    $result = Database::query($sql);
+    $infoPerso = Database::store_result($result, 'ASSOC');
 	
 	//Récupérations des expériences professionnelles
 	$sql = "SELECT * FROM experience_pro WHERE id_user = $id_user";
 	$result = Database::query($sql);
 	$xpPro = Database::store_result($result, 'ASSOC');
 
-	//Récupérations des expériences professionnelles
+	//Récupérations des formations
 	$sql = "SELECT * FROM experience_form WHERE id_user = $id_user";
 	$result = Database::query($sql);
 	$xpForm = Database::store_result($result, 'ASSOC');
 
-	//Récupérations des expériences professionnelles
+	//Récupérations des hobbies
 	$sql = "SELECT * FROM experience_hobbies WHERE id_user = $id_user";
 	$result = Database::query($sql);
 	$xpHobbies = Database::store_result($result, 'ASSOC');
@@ -46,7 +46,7 @@ $tpl->assign('xpPro',$xpPro);
 $tpl->assign('xpForm',$xpForm);
 $tpl->assign('xpHobbies',$xpHobbies);
 
-$content = $tpl->fetch('/'.$plugin->get_name().'/view/mv57.tpl');
+$content = $tpl->fetch('/'.$plugin->get_name().'/view/mv66.tpl');
 // Assign into content
 $tpl->assign('content', $content);
 // Display
