@@ -12,7 +12,7 @@ $plugin = curriculum_vitae_base::create();
 
 $action = isset($_GET['action']) ? Security::remove_XSS($_GET['action']) : 'add';
 $id_user =  api_get_user_id();
-$sessionId = api_get_session_id();
+
 
 if (!empty($id_user)) {
 	
