@@ -1,109 +1,56 @@
 <?php
 /* For licensing terms, see /license.txt */
 
-/**
- * Class curriculum_vitae_base.
- */
-class curriculum_vitae_base extends Plugin
-{
-    public $table = 'plugin_curriculum_vitae_base';
-    /**
-     * curriculum_vitae_base constructor.
-     */
-    protected function __construct()
-    {
-        parent::__construct(
-            '1.0',
-            'Andy Vespuce',
-            [
-                'enable_plugin_curriculum_vitae_base' => 'boolean',
-            ]
-        );
-    }
+require_once __DIR__.'/../../main/inc/global.inc.php';
+require_once __DIR__.'/curriculum_vitae_base.php';
 
-    /**
-     * @return curriculum_vitae_base|null
-     */
-    public static function create()
-    {
-        static $result = null;
 
-        return $result ? $result : $result = new self();
-    }
+//api_protect_admin_script();
+
+
+$plugin = curriculum_vitae_base::create();
+
+
+$action = isset($_GET['action']) ? Security::remove_XSS($_GET['action']) : 'add';
+$id_user =  api_get_user_id();
+
+
+if (!empty($id_user)) {
 	
-
+	//Récupérations des informations personnelles
 	
+	$sql = "SELECT * FROM plugin_curriculum_vitae_base WHERE id_user = $id_user";
+    $result = Database::query($sql);
+    $infoPerso = Database::store_result($result, 'ASSOC');
 	
+	//Récupérations des expériences professionnelles
+	$sql = "SELECT * FROM experience_pro WHERE id_user = $id_user";
+	$result = Database::query($sql);
+	$xpPro = Database::store_result($result, 'ASSOC');
 
-     /**
-     * install the plugin structure.
-     */
-    public function install()
-    {
-        $sql = "CREATE TABLE IF NOT EXISTS plugin_curriculum_vitae_base (
-                id INT NOT NULL AUTO_INCREMENT,
-				id_user INT NOT NULL,
-				date_birthday DATE NOT NULL,
-				phone VARCHAR(50) NOT NULL,
-                address VARCHAR(50) NOT NULL,
-                skill_profil VARCHAR(255) NOT NULL,
-                firstname VARCHAR(60) NULL,
-                lastname VARCHAR(60) NULL,
-                picture_uri VARCHAR(250) NULL,
-                PRIMARY KEY (id));
-        ";
-        Database::query($sql);
-		
-		$sql2 = "CREATE TABLE IF NOT EXISTS experience_pro (
-                id INT NOT NULL AUTO_INCREMENT,
-				id_user INT NOT NULL,
-				type INT NOT NULL,
-				date_begin VARCHAR(50) NOT NULL,
-				date_end VARCHAR(50) NOT NULL,
-                title VARCHAR(255) NOT NULL,
-				description VARCHAR(512) NOT NULL,
-                localisation VARCHAR(60) NOT NULL,
-                nom_entreprise	VARCHAR(60)	NOT NULL,
-                PRIMARY KEY (id));
-        ";
-        Database::query($sql2);
+	//Récupérations des formations
+	$sql = "SELECT * FROM experience_form WHERE id_user = $id_user";
+	$result = Database::query($sql);
+	$xpForm = Database::store_result($result, 'ASSOC');
 
-        $sql3 = "CREATE TABLE IF NOT EXISTS experience_form (
-                id INT NOT NULL AUTO_INCREMENT,
-                id_user INT NOT NULL,
-                type INT NOT NULL,
-                date_begin VARCHAR(50) NOT NULL,
-                date_end VARCHAR(50) NOT NULL,
-                diplome VARCHAR(255) NOT NULL,
-                lieu VARCHAR(255) NOT NULL,
-                etablissement VARCHAR(255) NOT NULL,
-                PRIMARY KEY (id));
-        ";
-        Database::query($sql3);
+	//Récupérations des hobbies
+	$sql = "SELECT * FROM experience_hobbies WHERE id_user = $id_user";
+	$result = Database::query($sql);
+	$xpHobbies = Database::store_result($result, 'ASSOC');
 
-         $sql4 = "CREATE TABLE IF NOT EXISTS experience_hobbies (
-                id INT NOT NULL AUTO_INCREMENT,
-                id_user INT NOT NULL,
-                type INT NOT NULL,
-                title VARCHAR(255) NOT NULL,
-                description VARCHAR(512) NOT NULL,
-                PRIMARY KEY (id));
-        ";
-        Database::query($sql4);
-    }
 
-     /**
-     * Uninstall the plugin structure.
-     */
-    public function uninstall()
-    {
-        $sql = "DROP TABLE IF EXISTS plugin_curriculum_vitae_base";
-		$sql2 = "DROP TABLE IF EXISTS experience_pro ";
-        $sql3 = "DROP TABLE IF EXISTS experience_form ";
-        $sql4 = "DROP TABLE IF EXISTS experience_hobbies ";
-        Database::query($sql);
-		Database::query($sql2);
-        Database::query($sql3);
-        Database::query($sql4);
-    }
 }
+
+$tpl = new Template($plugin->get_lang('Vue du mini-cv'));
+$tpl->assign('infoPerso',$infoPerso);
+$tpl->assign('xpPro',$xpPro);
+$tpl->assign('xpForm',$xpForm);
+$tpl->assign('xpHobbies',$xpHobbies);
+
+$content = $tpl->fetch('/'.$plugin->get_name().'/view/mv66.tpl');
+// Assign into content
+$tpl->assign('content', $content);
+// Display
+$tpl->display_one_col_template();
+
+
