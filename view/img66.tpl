@@ -25,7 +25,7 @@
            padding: 10px 0 0 0;
            margin: 15px 0;
        }
-
+  
        .membre-btn{
            /* haut | droit | bas | gauche */
            margin: 20px 0;
@@ -86,8 +86,30 @@
                     </div>
                 </div>
             </div>
-            {% endfor %}
-        </div>
+        {% endfor %}
+
+        {% for xpForm in xpForm %}
+            <div class="col-sm-4">
+                <div class="membre-corps">
+                    <div>
+                        {%  if infoPerso is defined %}
+                        {% endif %}
+
+                        {%  if xpForm.id_user == true %}
+                            {%  if infoPerso.picture_uri == true %}
+                                <img class="img-circle" src="http://localhost/chamilo-lms-1.11.14/app/upload/users/{{ infoPerso.id_user}}/{{ infoPerso.id_user}}/medium_{{ infoPerso.picture_uri}}" alt="{{ infoPerso.firstname}} {{ infoPerso.lastname}}" />
+                                <p class="info-name">{{ infoPerso.firstname}} {{ infoPerso.lastname}}</p>
+                            {% else %}
+                                <p class="info-name">{{ infoPerso.firstname}} {{ infoPerso.lastname}}</p>
+                             {% endif %}
+                        {% else %}
+                        {% endif %}
+                    </div>
+                    <div class="membre-btn">
+                        <a href="{{ _p.web_plugin }}curriculum_vitae_base/cv_admin.php?{{ {'id_user': infoPerso.id_user}|url_encode() }}" class="btn-voir" >Regarder le cv</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
     </div>
-       
 </body>
